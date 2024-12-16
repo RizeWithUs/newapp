@@ -1,0 +1,1743 @@
+graph TB
+    %% Entry and Authentication
+    Start[User Entry] --> AuthChoice{Login or Signup?}
+    
+    %% Login Path with Error Handling
+    AuthChoice --> |Login| LoginForm[Login Form]
+    LoginForm --> ValidateLogin{Validate}
+    ValidateLogin --> |Success| AuthDetails[Authentication Details]
+    ValidateLogin --> |Fail| LoginForm
+    ValidateLogin --> |Invalid Credentials| ErrorCount[Error Counter]
+    
+    ErrorCount --> CheckAttempts{Check Attempts}
+    CheckAttempts --> |< 3 Attempts| LoginForm
+    CheckAttempts --> |≥ 3 Attempts| LockAccount[Lock Account]
+    LockAccount --> NotifyUser[Notify User]
+    LockAccount --> SecurityLog[Log Security Event]
+    SecurityLog --> Monitor[System Monitor]
+
+    %% Authentication Process
+    AuthDetails --> SessionCreate[Create Session]
+    SessionCreate --> TokenGen[Generate JWT]
+    TokenGen --> SecurityCheck{Security Verification}
+    SecurityCheck --> |Pass| Dashboard[User Dashboard]
+    SecurityCheck --> |Fail| SecurityAlert[Security Alert]
+    SecurityAlert --> ForceLogout[Force Logout]
+    SecurityAlert --> SecurityLog
+    
+    %% Signup Path with Wallet Creation
+    AuthChoice --> |Signup| SignupForm[Signup Form]
+    SignupForm --> CreateUser[Create User]
+    CreateUser --> CreateWallet[Create Coreum Wallet]
+    
+    %% Wallet Creation Process with Error Handling
+    CreateWallet --> InitWallet[Initialize Wallet]
+    InitWallet --> GenKeys[Generate Keys]
+    GenKeys --> |Success| EncryptWallet[Encrypt Wallet Data]
+    GenKeys --> |Error| KeyGenError[Key Generation Error]
+    
+    KeyGenError --> RetryKeyGen{Retry?}
+    RetryKeyGen --> |Yes| GenKeys
+    RetryKeyGen --> |No| ErrorReport[Report Error]
+    ErrorReport --> SupportTicket[Create Support Ticket]
+    SupportTicket --> Monitor
+    
+    EncryptWallet --> StoreSecure[Secure Storage]
+    StoreSecure --> BackupSystem[Backup System]
+    BackupSystem --> Dashboard
+
+    %% User Interface Layer
+    Dashboard --> UserInterface[User Interface]
+    UserInterface --> PointsView[Points Display]
+    UserInterface --> RewardsView[Rewards Status]
+    UserInterface --> AppsView[Apps Management]
+    
+    %% Points Display System
+    PointsView --> CurrentPoints[Current Points]
+    PointsView --> EarningRate[Earning Rate]
+    PointsView --> NextReward[Next Reward Progress]
+    
+    CurrentPoints --> |Hidden| CoreumBalance[Actual CORE Balance]
+    EarningRate --> |Hidden| ActualStakingRate[Actual Staking Rate]
+    NextReward --> |Hidden| ThresholdTracking[CORE Threshold Track]
+    
+    %% Core Services
+    Dashboard --> CoreServices{Core Services}
+    CoreServices --> Points[Points System]
+    CoreServices --> Rewards[Rewards System]
+    CoreServices --> Apps[Mini Apps]
+
+    %% Multi-App Processing
+    Apps --> AppSelector[App Selection]
+    AppSelector --> MultiSubCheck{Multiple Subscriptions?}
+    MultiSubCheck --> |Yes| RevenueSplit[Split Revenue]
+    MultiSubCheck --> |No| SingleAppProcess[Single App Process]
+    
+    %% Payment Processing with Error Handling
+    RevenueSplit --> ProcessPayment[Process Payment]
+    SingleAppProcess --> ProcessPayment
+    
+    ProcessPayment --> ValidatePayment{Validate Payment}
+    ValidatePayment --> |Valid| ConvertFiat[Convert to CORE]
+    ValidatePayment --> |Invalid| RetryPayment[Retry Payment]
+    ValidatePayment --> |System Error| PaymentError[Payment Error]
+    
+    PaymentError --> PayErrorType{Error Type}
+    PayErrorType --> |Network| RetryPayment
+    PayErrorType --> |Insufficient Funds| NotifyInsufficient[Notify Insufficient]
+    PayErrorType --> |Invalid Card| UpdatePayment[Update Payment Method]
+    
+    NotifyInsufficient --> Monitor
+    UpdatePayment --> ProcessPayment
+    
+    ConvertFiat --> MarketCheck[Check Market Rate]
+    MarketCheck --> ExecutePurchase[Purchase CORE]
+    ExecutePurchase --> SplitFunds
+
+    %% Fund Distribution
+    SplitFunds --> |99%| StakingPool[Staking Pool]
+    SplitFunds --> |1%| OperationalPool[Operational Pool]
+
+    %% Staking Process with Comprehensive Error Handling
+    StakingPool --> ValidatorCheck[Check Validator Status]
+    ValidatorCheck --> PrepareStake[Prepare Stake]
+    PrepareStake --> ExecuteStake[Execute Staking]
+    
+    ExecuteStake --> ConfirmStake{Confirm Stake}
+    ConfirmStake --> |Success| UpdateMetrics[Update Metrics]
+    ConfirmStake --> |Fail| StakingError[Staking Error]
+    
+    StakingError --> StakeErrorType{Error Type}
+    StakingError --> ErrorLog[Error Logging]
+    
+    %% Network Error Recovery
+    StakeErrorType --> |Network| NetworkCheck[Check Network Status]
+    NetworkCheck --> NetworkStatus{Network Status}
+    NetworkStatus --> |Available| RetryStake[Retry Stake]
+    NetworkStatus --> |Unavailable| WaitPeriod[Wait Period]
+    
+    WaitPeriod --> |After Delay| RetryStake
+    RetryStake --> |Success| ResumeStaking[Resume Staking]
+    RetryStake --> |Fail| MaxRetries{Max Retries?}
+    MaxRetries --> |Yes| EscalateIssue[Escalate to Support]
+    MaxRetries --> |No| NetworkCheck
+    
+    %% Validator Error Recovery
+    StakeErrorType --> |Validator| ValidatorStatusCheck[Check Validator Status]
+    ValidatorStatusCheck --> ValidatorStatus{Validator Status}
+    ValidatorStatus --> |Online| RetryValidator[Retry Current Validator]
+    ValidatorStatus --> |Offline| FindNewValidator[Find New Validator]
+    
+    FindNewValidator --> ValidatorList[Get Validator List]
+    ValidatorList --> SelectValidator[Select Best Validator]
+    SelectValidator --> MigrateStake[Migrate Stake]
+    MigrateStake --> |Success| UpdateValidatorRef[Update Validator Reference]
+    MigrateStake --> |Fail| ManualMigration[Manual Migration Process]
+    
+    %% Transaction Error Recovery
+    StakeErrorType --> |Transaction| TxAnalysis[Analyze Transaction]
+    TxAnalysis --> TxStatus{Transaction Status}
+    TxStatus --> |Pending| WaitConfirm[Wait for Confirmation]
+    TxStatus --> |Failed| RefundProcess[Process Refund]
+    TxStatus --> |Stuck| CancelTx[Cancel Transaction]
+    
+    WaitConfirm --> |Success| CompleteStaking[Complete Staking]
+    WaitConfirm --> |Timeout| CancelTx
+    
+    %% Refund Processing
+    RefundProcess --> VerifyBalance[Verify Balance]
+    VerifyBalance --> InitiateRefund[Initiate Refund]
+    InitiateRefund --> |Success| NotifyUser
+    InitiateRefund --> |Fail| SupportTicket
+    
+    %% Reward Distribution and Processing
+    StakingPool --> Validator[Rize Labs Validator]
+    Validator --> StakingRewards[Staking Rewards]
+    StakingRewards --> RewardScheduler[Reward Scheduler]
+    RewardScheduler --> RewardsSplit{Split Rewards}
+    
+    RewardsSplit --> |80%| AutoCompound[Auto-Compound]
+    RewardsSplit --> |20%| UserRewards[User Rewards]
+    
+    %% Points System with Error Handling
+    UserRewards --> PointsCalculator[Points Calculator]
+    PointsCalculator --> GetStakingData[Get Staking Data]
+    GetStakingData --> CalcRewards[Calculate Rewards]
+    
+    CalcRewards --> |Success| ApplyMultipliers[Apply Multipliers]
+    CalcRewards --> |Error| CalcError[Calculation Error]
+    
+    CalcError --> ErrorLog
+    ErrorLog --> RecalculatePoints[Recalculate Points]
+    RecalculatePoints --> |Success| ApplyMultipliers
+    RecalculatePoints --> |Fail| ManualReview[Flag for Review]
+    
+    ApplyMultipliers --> UpdatePoints[Update Points]
+    UpdatePoints --> NotifyUser
+    
+    %% Gift Card Processing with Error Handling
+    UpdatePoints --> ThresholdCheck{Check Thresholds}
+    ThresholdCheck --> |Met| GiftCardConversion[Convert to Gift Card]
+    ThresholdCheck --> |Not Met| ContinueStaking[Continue Staking]
+    
+    GiftCardConversion --> ConversionType{Conversion Type}
+    ConversionType --> |Auto| AutoProcess[Automatic Processing]
+    ConversionType --> |Manual| ManualProcess[Manual Processing]
+    
+    AutoProcess --> ProcessOrder[Process Order]
+    ManualProcess --> ProcessOrder
+    
+    ProcessOrder --> |Success| GenerateCode[Generate Card Code]
+    ProcessOrder --> |Error| GiftCardError[Gift Card Error]
+    
+    GiftCardError --> CardErrorType{Error Type}
+    CardErrorType --> |Provider Error| TryAltProvider[Try Alternative Provider]
+    CardErrorType --> |Balance Error| RefundPoints[Refund Points]
+    CardErrorType --> |System Error| ManualProcess
+    
+    GenerateCode --> DeliverCard[Deliver to User]
+    DeliverCard --> CardIssuance[Issue Gift Card]
+    
+    %% Backend Systems and Monitoring
+    StakingPool --> Blockchain[Blockchain Layer]
+    CardIssuance --> Blockchain
+    
+    ErrorLog --> Monitor
+    Monitor --> AlertSystem{Alert Priority}
+    AlertSystem --> |High| InstantAlert[Instant Alert]
+    AlertSystem --> |Medium| QueuedAlert[Queued Alert]
+    AlertSystem --> |Low| DailyReport[Daily Report]
+    
+    Monitor --> Analytics[Analytics Dashboard]
+    Monitor --> StakeMonitor[Staking Monitor]
+    Monitor --> UserMetrics[User Metrics]
+    
+    %% Recovery Tracking
+    RetryStake --> RecoveryMonitor[Recovery Monitor]
+    FindNewValidator --> RecoveryMonitor
+    RefundProcess --> RecoveryMonitor
+    RecoveryMonitor --> Monitor
+
+    all the files need for the plumbing of this project.
+
+    1. Core Authentication System
+System Architecture Overview 🏗️
+A. Frontend Layer (User-Facing)
+// Core Authentication Interface
+interface AuthenticationSystem {
+  // User Interface Components
+  interface UserInterface {
+    loginScreen: {
+      email: string;
+      password: string;
+      loginButton: Button;
+      forgotPassword: Link;
+    };
+    
+    signupScreen: {
+      email: string;
+      password: string;
+      name: string;
+      paymentDetails: PaymentInfo;
+      signupButton: Button;
+      termsAcceptance: Checkbox;
+    };
+    
+    dashboardScreen: {
+      userProfile: UserProfile;
+      activeSubscriptions: Subscription[];
+      activityLog: Activity[];
+    };
+  }
+  // Authentication Flow Controllers
+  class AuthController {
+    async login(credentials: LoginCredentials): Promise<Session>;
+    async signup(userDetails: SignupDetails): Promise<User>;
+    async validateSession(token: string): Promise<boolean>;
+    async logout(sessionId: string): Promise<void>;
+  }
+}
+B. Middleware Layer (Blockchain Bridge)
+interface BlockchainMiddleware {
+  // Wallet Management
+  class WalletManager {
+    async createWallet(): Promise<WalletDetails> {
+      const wallet = await CoreumSDK.createWallet();
+      const encrypted = await this.encryptWalletData(wallet);
+      return this.storeWallet(encrypted);
+    }
+    
+    async encryptWalletData(wallet: WalletDetails): Promise<EncryptedWallet> {
+      // Encryption implementation
+    }
+    
+    private async storeWallet(wallet: EncryptedWallet): Promise<void> {
+      // Secure storage implementation
+    }
+  }
+  // Subscription Handler
+  class SubscriptionManager {
+    async handleSubscription(payment: Payment): Promise<void> {
+      const coreAmount = await this.convertToCORE(payment.amount);
+      await this.stakeTokens(coreAmount);
+      await this.activateSubscription(payment.userId);
+    }
+    
+    async stakeTokens(amount: number): Promise<void> {
+      // Staking implementation
+    }
+  }
+}
+C. Database Schema
+-- Core User Tables
+CREATE TABLE users (
+  id UUID PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  encrypted_wallet_data TEXT,
+  subscription_status VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_login TIMESTAMP,
+  is_active BOOLEAN DEFAULT true
+);
+CREATE TABLE sessions (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  token TEXT UNIQUE,
+  expires_at TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE wallet_operations (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES users(id),
+  operation_type VARCHAR(50),
+  status VARCHAR(50),
+  details JSONB,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+Security Implementation 🔐
+A. Encryption Service
+class EncryptionService {
+  // Key Management
+  private async generateKeyPair(): Promise<KeyPair> {
+    // Implement key generation
+  }
+  // Data Encryption
+  async encryptSensitiveData(data: any): Promise<EncryptedData> {
+    // Implement encryption
+  }
+  // Wallet Encryption
+  async encryptWalletCredentials(wallet: WalletDetails): Promise<EncryptedWallet> {
+    // Implement wallet-specific encryption
+  }
+}
+B. Authentication Service
+class AuthenticationService {
+  // Password Management
+  async hashPassword(password: string): Promise<string> {
+    // Implement password hashing
+  }
+  // Session Management
+  async createSession(userId: string): Promise<Session> {
+    const token = await this.generateSecureToken();
+    return this.storeSession(userId, token);
+  }
+  // Token Validation
+  async validateToken(token: string): Promise<boolean> {
+    // Implement token validation
+  }
+}
+Error Handling 🚨
+class ErrorHandler {
+  // Authentication Errors
+  handleAuthError(error: AuthError): Response {
+    return {
+      status: error.status,
+      message: this.sanitizeErrorMessage(error.message),
+      code: error.code
+    };
+  }
+  // Blockchain Errors
+  handleBlockchainError(error: BlockchainError): Response {
+    // Handle blockchain-specific errors
+  }
+  // Generic Error Handler
+  handleError(error: Error): Response {
+    // Generic error handling
+  }
+}
+Monitoring & Logging 📊
+class SystemMonitor {
+  // Activity Logging
+  async logUserActivity(
+    userId: string,
+    activity: ActivityType,
+    details: object
+  ): Promise<void> {
+    await this.logToDatabase({
+      userId,
+      activity,
+      details,
+      timestamp: new Date()
+    });
+  }
+  // Performance Monitoring
+  async trackPerformanceMetrics(): Promise<void> {
+    // Implement performance tracking
+  }
+  // Security Monitoring
+  async monitorSecurityEvents(): Promise<void> {
+    // Implement security monitoring
+  }
+}
+API Endpoints 🌐
+Ask
+Copy
+Apply
+// RESTful API Routes
+interface APIRoutes {
+  // Authentication Routes
+  'POST /auth/login': LoginController;
+  'POST /auth/signup': SignupController;
+  'POST /auth/logout': LogoutController;
+  'GET /auth/validate': ValidationController;
+  // User Management Routes
+  'GET /user/profile': ProfileController;
+  'PUT /user/profile': UpdateProfileController;
+  'GET /user/subscriptions': SubscriptionController;
+}
+
+
+2. Rewards & Points System
+Points System Architecture 🎯
+A. Points Management
+class PointsManager {
+  // Points Calculation
+  async calculatePoints(stakingRewards: number): Promise<number> {
+    return {
+      points: stakingRewards * 100, // 1 CORE = 100 points
+      earnedAt: new Date(),
+      type: 'STAKING_REWARD'
+    };
+  }
+  // Points Database Schema
+  const pointsSchema = `
+    CREATE TABLE user_points (
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id),
+      points_balance DECIMAL,
+      lifetime_points DECIMAL,
+      last_updated TIMESTAMP,
+      points_multiplier DECIMAL DEFAULT 1
+    );
+    CREATE TABLE points_transactions (
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id),
+      amount DECIMAL,
+      type VARCHAR(50),
+      source VARCHAR(50),
+      created_at TIMESTAMP
+    );
+  `;
+}
+B. Reward Distribution System
+class RewardDistributor {
+  // Staking Reward Processing
+  async processStakingRewards(wallet: WalletDetails): Promise<void> {
+    const rewards = await this.getStakingRewards(wallet);
+    
+    // Split rewards
+    const distribution = {
+      autoCompound: rewards * 0.80,
+      userRewards: rewards * 0.20
+    };
+    await this.distributeRewards(distribution);
+  }
+  // Auto-compound Implementation
+  private async autoCompound(amount: number): Promise<void> {
+    await this.stakeToValidator(amount);
+    await this.updateStakingMetrics();
+  }
+}
+Gift Card System 🎁
+A. Gift Card Manager
+class GiftCardManager {
+  // Gift Card Thresholds
+  private readonly THRESHOLDS = {
+    AMAZON_10: { points: 1000, coreValue: 100 },
+    VISA_25: { points: 2500, coreValue: 250 },
+    TARGET_50: { points: 5000, coreValue: 500 }
+  };
+  // Auto Redemption Logic
+  async processAutoRedemption(userId: string): Promise<void> {
+    const userPoints = await this.getUserPoints(userId);
+    
+    for (const [card, threshold] of Object.entries(this.THRESHOLDS)) {
+      if (userPoints >= threshold.points) {
+        await this.issueGiftCard(userId, card);
+        await this.deductPoints(userId, threshold.points);
+      }
+    }
+  }
+  // Gift Card Database Schema
+  const giftCardSchema = `
+    CREATE TABLE gift_cards (
+      id UUID PRIMARY KEY,
+      user_id UUID REFERENCES users(id),
+      card_type VARCHAR(50),
+      amount DECIMAL,
+      status VARCHAR(50),
+      issued_at TIMESTAMP,
+      claimed_at TIMESTAMP
+    );
+  `;
+}
+Multi-App Revenue Integration 💰
+class RevenueDistributor {
+  async distributeAppRevenue(payment: Payment): Promise<void> {
+    const userApps = await this.getUserSubscribedApps(payment.userId);
+    const revenuePerApp = payment.amount / userApps.length;
+    for (const app of userApps) {
+      await this.processAppRevenue({
+        appId: app.id,
+        amount: revenuePerApp,
+        stakingAmount: revenuePerApp * 0.99,
+        operationalAmount: revenuePerApp * 0.01
+      });
+    }
+  }
+  // Revenue Schema
+  const revenueSchema = `
+    CREATE TABLE app_revenue (
+      id UUID PRIMARY KEY,
+      app_id UUID,
+      amount DECIMAL,
+      staking_amount DECIMAL,
+      operational_amount DECIMAL,
+      processed_at TIMESTAMP
+    );
+  `;
+}
+User Dashboard Interface 📊
+interface UserDashboard {
+  pointsDisplay: {
+    currentBalance: number;
+    earningRate: string; // "50 points/day"
+    nextRewardProgress: {
+      current: number;
+      target: number;
+      percentage: number;
+    };
+  };
+  rewardsSection: {
+    availableRewards: GiftCard[];
+    rewardHistory: Transaction[];
+    upcomingRewards: Threshold[];
+  };
+  activityFeed: {
+    recentActivity: Activity[];
+    pointsEarned: number;
+    rewardsRedeemed: number;
+  };
+}
+Automated Processes 🤖
+A. Reward Scheduler
+class RewardScheduler {
+  // Daily Reward Processing
+  @Schedule('0 0 * * *') // Run daily at midnight
+  async processDailyRewards(): Promise<void> {
+    const activeWallets = await this.getActiveWallets();
+    
+    for (const wallet of activeWallets) {
+      await this.processStakingRewards(wallet);
+      await this.updateUserPoints(wallet.userId);
+      await this.checkRewardThresholds(wallet.userId);
+    }
+  }
+  // Auto-compound Processing
+  @Schedule('0 */4 * * *') // Run every 4 hours
+  async processAutoCompound(): Promise<void> {
+    const stakingPools = await this.getStakingPools();
+    await this.compoundRewards(stakingPools);
+  }
+}
+B. Monitoring System
+Ask
+Copy
+Apply
+class RewardMonitor {
+  async trackMetrics(): Promise<void> {
+    const metrics = {
+      totalStaked: await this.getTotalStaked(),
+      totalRewardsDistributed: await this.getDistributedRewards(),
+      activeUsers: await this.getActiveUsers(),
+      giftCardsIssued: await this.getIssuedGiftCards(),
+      averagePointsPerUser: await this.calculateAveragePoints()
+    };
+    await this.logMetrics(metrics);
+  }
+}
+
+3. Integration & Implementation Guide
+System Integration Overview 🔄
+A. Core Components Integration
+class SystemIntegrator {
+  // Main Integration Flow
+  async initializeSystem(): Promise<void> {
+    await this.initializeBlockchain();
+    await this.setupDatabase();
+    await this.connectPaymentGateways();
+    await this.startRewardServices();
+  }
+  // Component Connections
+  private async connectServices(): Promise<void> {
+    const services = {
+      auth: new AuthenticationService(),
+      blockchain: new BlockchainService(),
+      rewards: new RewardService(),
+      payments: new PaymentService()
+    };
+    await this.validateConnections(services);
+  }
+}
+Implementation Steps 📝
+1. Initial Setup
+// Environment Configuration
+interface EnvironmentConfig {
+  blockchain: {
+    network: 'mainnet' | 'testnet';
+    validatorAddress: string;
+    rpcEndpoints: string[];
+  };
+  
+  database: {
+    type: 'postgres';
+    host: string;
+    credentials: DBCredentials;
+  };
+  
+  security: {
+    encryptionKey: string;
+    jwtSecret: string;
+    apiKeys: Record<string, string>;
+  };
+}
+2. Service Integration
+class ServiceIntegrator {
+  // Payment Gateway Integration
+  async setupPaymentGateway(): Promise<void> {
+    const gateway = new PaymentGateway({
+      providers: ['stripe', 'paypal'],
+      webhookHandlers: {
+        onSuccess: this.handleSuccessfulPayment,
+        onFailure: this.handleFailedPayment
+      }
+    });
+  }
+  // Blockchain Integration
+  async setupBlockchainConnection(): Promise<void> {
+    const coreumClient = new CoreumClient({
+      network: config.blockchain.network,
+      validator: config.blockchain.validatorAddress,
+      callbacks: {
+        onStakingReward: this.processStakingReward,
+        onTransactionComplete: this.updateUserBalance
+      }
+    });
+  }
+}
+API Integration Examples 🌐
+1. Authentication Endpoints
+// User Authentication
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const authResult = await authService.login(email, password);
+    
+    // Create session and return token
+    const session = await sessionManager.create(authResult.userId);
+    res.json({ token: session.token });
+  } catch (error) {
+    errorHandler.handle(error, res);
+  }
+});
+// User Registration
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    const user = await authService.register({ email, password, name });
+    
+    // Initialize user wallet and rewards
+    await walletService.createUserWallet(user.id);
+    await rewardService.initializeRewards(user.id);
+    
+    res.json({ success: true, userId: user.id });
+  } catch (error) {
+    errorHandler.handle(error, res);
+  }
+});
+2. Points and Rewards Endpoints
+// Points Management
+app.get('/api/points/balance', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const pointsData = await pointsService.getUserPoints(userId);
+    res.json(pointsData);
+  } catch (error) {
+    errorHandler.handle(error, res);
+  }
+});
+// Reward Redemption
+app.post('/api/rewards/redeem', auth, async (req, res) => {
+  try {
+    const { rewardType } = req.body;
+    const userId = req.user.id;
+    
+    const redemption = await rewardService.redeemReward(userId, rewardType);
+    res.json(redemption);
+  } catch (error) {
+    errorHandler.handle(error, res);
+  }
+});
+Webhook Handlers 🎣
+class WebhookHandler {
+  // Payment Webhook
+  async handlePaymentWebhook(payload: WebhookPayload): Promise<void> {
+    switch (payload.type) {
+      case 'payment.success':
+        await this.processSuccessfulPayment(payload);
+        break;
+      case 'subscription.created':
+        await this.initializeSubscription(payload);
+        break;
+      case 'subscription.cancelled':
+        await this.handleCancellation(payload);
+        break;
+    }
+  }
+  // Blockchain Event Handler
+  async handleBlockchainEvent(event: BlockchainEvent): Promise<void> {
+    switch (event.type) {
+      case 'staking.reward':
+        await this.processStakingReward(event);
+        break;
+      case 'transaction.complete':
+        await this.updateUserBalance(event);
+        break;
+    }
+  }
+}
+Error Handling Implementation 🚨
+class IntegrationErrorHandler {
+  async handleError(error: Error, context: string): Promise<void> {
+    // Log error
+    await this.logError({
+      error,
+      context,
+      timestamp: new Date(),
+      severity: this.calculateSeverity(error)
+    });
+    // Notify if critical
+    if (this.isCriticalError(error)) {
+      await this.notifyAdministrators(error);
+    }
+    // Handle recovery
+    await this.attemptRecovery(error, context);
+  }
+  private async attemptRecovery(error: Error, context: string): Promise<void> {
+    const recoveryStrategies = {
+      'database': this.handleDatabaseError,
+      'blockchain': this.handleBlockchainError,
+      'payment': this.handlePaymentError
+    };
+    const strategy = recoveryStrategies[context];
+    if (strategy) {
+      await strategy(error);
+    }
+  }
+}
+Testing Guide 🧪
+Ask
+Copy
+Apply
+class IntegrationTester {
+  // Test Suites
+  async runIntegrationTests(): Promise<TestResults> {
+    const testSuites = {
+      auth: this.testAuthFlow(),
+      payments: this.testPaymentFlow(),
+      rewards: this.testRewardFlow(),
+      blockchain: this.testBlockchainIntegration()
+    };
+    return await this.executeTests(testSuites);
+  }
+  // Mock Services
+  private setupMocks(): void {
+    const mocks = {
+      blockchain: new MockBlockchainService(),
+      payment: new MockPaymentGateway(),
+      database: new MockDatabase()
+    };
+    this.registerMocks(mocks);
+  }
+}
+
+
+4. Technical Specifications
+System Requirements 🖥️
+A. Infrastructure Requirements
+interface SystemRequirements {
+  server: {
+    cpu: "4+ cores",
+    ram: "16GB minimum",
+    storage: "500GB SSD",
+    bandwidth: "1Gbps minimum"
+  };
+  
+  database: {
+    type: "PostgreSQL 13+",
+    replication: "Master-slave configuration",
+    backup: "Daily automated backups",
+    storage: "100GB minimum"
+  };
+  
+  blockchain: {
+    node: "Coreum full node",
+    storage: "200GB minimum",
+    connection: "Dedicated high-speed connection"
+  };
+}
+B. Performance Metrics
+interface PerformanceTargets {
+  responseTime: {
+    auth: "< 200ms",
+    pointsUpdate: "< 500ms",
+    rewardProcessing: "< 1s",
+    blockchainOperations: "< 3s"
+  };
+  
+  throughput: {
+    maxConcurrentUsers: 10000,
+    transactionsPerSecond: 1000,
+    pointsCalculationsPerSecond: 5000
+  };
+  
+  availability: {
+    uptime: "99.9%",
+    maxPlannedDowntime: "2 hours/month",
+    recoveryTime: "< 5 minutes"
+  };
+}
+Security Specifications 🔒
+A. Encryption Standards
+class SecuritySpecifications {
+  encryptionStandards = {
+    walletEncryption: "AES-256-GCM",
+    dataAtRest: "AES-256",
+    dataInTransit: "TLS 1.3",
+    keyManagement: "HSM-based",
+    passwordHashing: "Argon2id"
+  };
+  async implementEncryption(): Promise<void> {
+    // Implementation details for each standard
+    const implementation = {
+      initializeHSM(): Promise<void>;
+      setupKeyRotation(): Promise<void>;
+      configureSSL(): Promise<void>;
+      implementPasswordPolicies(): Promise<void>;
+    };
+  }
+}
+B. Authentication Protocols
+interface AuthenticationSpecs {
+  // JWT Configuration
+  jwtConfig: {
+    algorithm: "RS256",
+    expirationTime: "24h",
+    refreshTokenValidity: "7d",
+    keyRotationSchedule: "30d"
+  };
+  // 2FA Requirements
+  twoFactorAuth: {
+    type: "TOTP",
+    issuer: "RizeLabs",
+    digits: 6,
+    window: 30
+  };
+  // Session Management
+  sessionConfig: {
+    maxConcurrentSessions: 3,
+    inactivityTimeout: "1h",
+    absoluteTimeout: "24h"
+  };
+}
+Data Architecture 📊
+A. Database Schema Specifications
+-- Comprehensive Schema Definition
+CREATE SCHEMA rize_system;
+-- Core Tables
+CREATE TABLE rize_system.users (
+  id UUID PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  encrypted_wallet_data TEXT,
+  subscription_status VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  last_login TIMESTAMP,
+  is_active BOOLEAN DEFAULT true,
+  metadata JSONB
+);
+-- Blockchain Integration Tables
+CREATE TABLE rize_system.blockchain_operations (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES rize_system.users(id),
+  operation_type VARCHAR(50),
+  amount DECIMAL,
+  status VARCHAR(50),
+  transaction_hash TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  completed_at TIMESTAMP,
+  metadata JSONB
+);
+-- Points and Rewards Tables
+CREATE TABLE rize_system.points_ledger (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES rize_system.users(id),
+  transaction_type VARCHAR(50),
+  points_amount DECIMAL,
+  balance_after DECIMAL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  reference_id UUID,
+  metadata JSONB
+);
+B. Data Flow Specifications
+interface DataFlowSpecs {
+  // Data Processing Pipelines
+  pipelines: {
+    userRegistration: ProcessingPipeline;
+    pointsCalculation: ProcessingPipeline;
+    rewardDistribution: ProcessingPipeline;
+    stakingOperations: ProcessingPipeline;
+  };
+  // Data Validation Rules
+  validationRules: {
+    email: RegExp;
+    password: PasswordPolicy;
+    points: PointsValidation;
+    transactions: TransactionValidation;
+  };
+  // Data Retention Policies
+  retentionPolicies: {
+    userData: "7 years",
+    transactionHistory: "5 years",
+    activityLogs: "2 years",
+    sessionData: "30 days"
+  };
+}
+API Specifications 📡
+A. API Endpoints Documentation
+interface APISpecification {
+  // Authentication Endpoints
+  auth: {
+    login: {
+      method: "POST",
+      path: "/api/v1/auth/login",
+      body: LoginCredentials,
+      response: AuthToken,
+      rateLimit: "5 requests/minute"
+    },
+    register: {
+      method: "POST",
+      path: "/api/v1/auth/register",
+      body: RegistrationData,
+      response: UserProfile,
+      rateLimit: "3 requests/minute"
+    }
+  };
+  // Points and Rewards Endpoints
+  rewards: {
+    getPoints: {
+      method: "GET",
+      path: "/api/v1/points/balance",
+      response: PointsBalance,
+      caching: "30 seconds"
+    },
+    redeemReward: {
+      method: "POST",
+      path: "/api/v1/rewards/redeem",
+      body: RedemptionRequest,
+      response: RedemptionConfirmation
+    }
+  };
+}
+B. Rate Limiting Specifications
+interface RateLimitingSpecs {
+  // API Rate Limits
+  rateLimits: {
+    public: {
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100 // requests per window
+    },
+    authenticated: {
+      windowMs: 15 * 60 * 1000,
+      max: 300
+    },
+    webhook: {
+      windowMs: 60 * 1000, // 1 minute
+      max: 50
+    }
+  };
+  // Rate Limit Headers
+  responseHeaders: {
+    remaining: "X-RateLimit-Remaining",
+    reset: "X-RateLimit-Reset",
+    total: "X-RateLimit-Total"
+  };
+}
+Monitoring & Logging Specifications 📊
+interface MonitoringSpecs {
+  // Logging Requirements
+  logging: {
+    levels: ["ERROR", "WARN", "INFO", "DEBUG"],
+    retention: "90 days",
+    format: "JSON",
+    required_fields: [
+      "timestamp",
+      "level",
+      "service",
+      "trace_id",
+      "message"
+    ]
+  };
+  // Metrics Collection
+  metrics: {
+    collection_interval: "10s",
+    retention_period: "30d",
+    key_metrics: [
+      "user_activity",
+      "point_transactions",
+      "reward_distributions",
+      "blockchain_operations"
+    ]
+  };
+  // Alerting Configuration
+  alerts: {
+    error_rate: {
+      threshold: "1% of requests",
+      window: "5m",
+      channels: ["slack", "email"]
+    },
+    response_time: {
+      threshold: "500ms",
+      window: "1m",
+      channels: ["slack"]
+    }
+  };
+}
+Deployment Specifications 🚀
+Ask
+Copy
+Apply
+interface DeploymentSpecs {
+  // Environment Configurations
+  environments: {
+    development: EnvironmentConfig;
+    staging: EnvironmentConfig;
+    production: EnvironmentConfig;
+  };
+  // Deployment Process
+  deploymentProcess: {
+    type: "Blue-Green",
+    rollback_strategy: "Automated",
+    health_checks: {
+      endpoints: string[];
+      interval: "30s",
+      timeout: "5s",
+      healthy_threshold: 3
+    }
+  };
+  // Scaling Configuration
+  scalingConfig: {
+    auto_scaling: {
+      min_instances: 2,
+      max_instances: 10,
+      scale_up_threshold: "70% CPU",
+      scale_down_threshold: "30% CPU"
+    }
+  };
+}
+
+
+Flow charts
+
+1. Overview Chart (All Systems Connected)
+Individual System Charts
+User Journey Flows
+Data Flow Charts
+System Architecture
+Let's start with the Overview Chart:
+graph TB
+    subgraph "1. Core Authentication System"
+        A[User Login/Signup] --> B[Authentication Service]
+        B --> C[Wallet Creation]
+    end
+    subgraph "2. Rewards & Points System"
+        D[Points Management] --> E[Reward Distribution]
+        E --> F[Gift Card System]
+    end
+    subgraph "3. Integration Layer"
+        G[Service Integration] --> H[API Gateway]
+        H --> I[Webhook Handlers]
+    end
+    subgraph "4. Technical Infrastructure"
+        J[Database Layer] --> K[Security Layer]
+        K --> L[Monitoring System]
+    end
+    B --> D
+    C --> E
+    E --> G
+    F --> H
+    I --> J
+Now, let's break down each system individually:
+graph TB
+    subgraph "1. Core Authentication System Detail"
+        A1[User Interface] --> B1[Login Flow]
+        A1 --> C1[Signup Flow]
+        
+        B1 --> D1[Auth Service]
+        C1 --> D1
+        
+        D1 --> E1[Wallet Creation]
+        E1 --> F1[Blockchain Integration]
+        
+        G1[Security Layer] --> D1
+        G1 --> E1
+    end
+graph TB
+    subgraph "2. Rewards & Points System Detail"
+        A2[Points Calculator] --> B2[Staking Rewards]
+        B2 --> C2[Auto-Compound]
+        B2 --> D2[User Rewards Pool]
+        
+        D2 --> E2[Points Balance]
+        E2 --> F2[Gift Card System]
+        
+        F2 --> G2[Reward Distribution]
+        G2 --> H2[Gift Card Issuance]
+    end
+graph TB
+    subgraph "3. Integration Layer Detail"
+        A3[API Gateway] --> B3[Service Router]
+        
+        B3 --> C3[Payment Integration]
+        B3 --> D3[Blockchain Integration]
+        B3 --> E3[Points Integration]
+        
+        F3[Webhook Handler] --> C3
+        F3 --> D3
+        F3 --> E3
+    end
+Now for the User Journey:
+graph LR
+    subgraph "User Journey Flow"
+        A4[Visit Site] --> B4[Sign Up]
+        B4 --> C4[Complete Profile]
+        C4 --> D4[Add Payment]
+        
+        D4 --> E4[Use Services]
+        E4 --> F4[Earn Points]
+        F4 --> G4[Redeem Rewards]
+        
+        E4 --> H4[Subscribe to More Apps]
+        H4 --> F4
+    end
+Data Flow Chart:
+graph TB
+    subgraph "Data Flow"
+        A5[User Data] --> B5[Authentication Service]
+        B5 --> C5[Wallet Creation]
+        
+        D5[Payment Data] --> E5[Blockchain Service]
+        E5 --> F5[Staking System]
+        
+        F5 --> G5[Rewards Calculator]
+        G5 --> H5[Points System]
+        
+        H5 --> I5[Gift Card Service]
+    end
+System Architecture:
+Ask
+Copy
+Apply
+graph TB
+    subgraph "System Architecture"
+        A6[Frontend Layer] --> B6[API Gateway]
+        
+        B6 --> C6[Auth Service]
+        B6 --> D6[Payment Service]
+        B6 --> E6[Blockchain Service]
+        B6 --> F6[Rewards Service]
+        
+        C6 --> G6[Database]
+        D6 --> G6
+        E6 --> G6
+        F6 --> G6
+        
+        H6[Monitoring] --> C6
+        H6 --> D6
+        H6 --> E6
+        H6 --> F6
+    end
+V1
+
+graph TB
+    %% Entry and Authentication
+    Start[User Entry] --> AuthChoice{Login or Signup?}
+    
+    %% Login Path with Error Handling
+    AuthChoice --> |Login| LoginForm[Login Form]
+    LoginForm --> ValidateLogin{Validate}
+    ValidateLogin --> |Success| AuthDetails[Authentication Details]
+    ValidateLogin --> |Fail| LoginForm
+    ValidateLogin --> |Invalid Credentials| ErrorCount[Error Counter]
+    
+    ErrorCount --> CheckAttempts{Check Attempts}
+    CheckAttempts --> |< 3 Attempts| LoginForm
+    CheckAttempts --> |≥ 3 Attempts| LockAccount[Lock Account]
+    LockAccount --> NotifyUser[Notify User]
+    LockAccount --> SecurityLog[Log Security Event]
+    SecurityLog --> Monitor[System Monitor]
+
+    %% Authentication Process
+    AuthDetails --> SessionCreate[Create Session]
+    SessionCreate --> TokenGen[Generate JWT]
+    TokenGen --> SecurityCheck{Security Verification}
+    SecurityCheck --> |Pass| Dashboard[User Dashboard]
+    SecurityCheck --> |Fail| SecurityAlert[Security Alert]
+    SecurityAlert --> ForceLogout[Force Logout]
+    SecurityAlert --> SecurityLog
+    
+    %% Signup Path with Wallet Creation
+    AuthChoice --> |Signup| SignupForm[Signup Form]
+    SignupForm --> CreateUser[Create User]
+    CreateUser --> CreateWallet[Create Coreum Wallet]
+    
+    %% Wallet Creation Process with Error Handling
+    CreateWallet --> InitWallet[Initialize Wallet]
+    InitWallet --> GenKeys[Generate Keys]
+    GenKeys --> |Success| EncryptWallet[Encrypt Wallet Data]
+    GenKeys --> |Error| KeyGenError[Key Generation Error]
+    
+    KeyGenError --> RetryKeyGen{Retry?}
+    RetryKeyGen --> |Yes| GenKeys
+    RetryKeyGen --> |No| ErrorReport[Report Error]
+    ErrorReport --> SupportTicket[Create Support Ticket]
+    SupportTicket --> Monitor
+    
+    EncryptWallet --> StoreSecure[Secure Storage]
+    StoreSecure --> BackupSystem[Backup System]
+    BackupSystem --> Dashboard
+
+    %% User Interface Layer
+    Dashboard --> UserInterface[User Interface]
+    UserInterface --> PointsView[Points Display]
+    UserInterface --> RewardsView[Rewards Status]
+    UserInterface --> AppsView[Apps Management]
+    
+    %% Points Display System
+    PointsView --> CurrentPoints[Current Points]
+    PointsView --> EarningRate[Earning Rate]
+    PointsView --> NextReward[Next Reward Progress]
+    
+    CurrentPoints --> |Hidden| CoreumBalance[Actual CORE Balance]
+    EarningRate --> |Hidden| ActualStakingRate[Actual Staking Rate]
+    NextReward --> |Hidden| ThresholdTracking[CORE Threshold Track]
+    
+    %% Core Services
+    Dashboard --> CoreServices{Core Services}
+    CoreServices --> Points[Points System]
+    CoreServices --> Rewards[Rewards System]
+    CoreServices --> Apps[Mini Apps]
+
+    %% Multi-App Processing
+    Apps --> AppSelector[App Selection]
+    AppSelector --> MultiSubCheck{Multiple Subscriptions?}
+    MultiSubCheck --> |Yes| RevenueSplit[Split Revenue]
+    MultiSubCheck --> |No| SingleAppProcess[Single App Process]
+    
+    %% Payment Processing with Error Handling
+    RevenueSplit --> ProcessPayment[Process Payment]
+    SingleAppProcess --> ProcessPayment
+    
+    ProcessPayment --> ValidatePayment{Validate Payment}
+    ValidatePayment --> |Valid| ConvertFiat[Convert to CORE]
+    ValidatePayment --> |Invalid| RetryPayment[Retry Payment]
+    ValidatePayment --> |System Error| PaymentError[Payment Error]
+    
+    PaymentError --> PayErrorType{Error Type}
+    PayErrorType --> |Network| RetryPayment
+    PayErrorType --> |Insufficient Funds| NotifyInsufficient[Notify Insufficient]
+    PayErrorType --> |Invalid Card| UpdatePayment[Update Payment Method]
+    
+    NotifyInsufficient --> Monitor
+    UpdatePayment --> ProcessPayment
+    
+    ConvertFiat --> MarketCheck[Check Market Rate]
+    MarketCheck --> ExecutePurchase[Purchase CORE]
+    ExecutePurchase --> SplitFunds
+
+    %% Fund Distribution
+    SplitFunds --> |99%| StakingPool[Staking Pool]
+    SplitFunds --> |1%| OperationalPool[Operational Pool]
+
+    %% Staking Process with Comprehensive Error Handling
+    StakingPool --> ValidatorCheck[Check Validator Status]
+    ValidatorCheck --> PrepareStake[Prepare Stake]
+    PrepareStake --> ExecuteStake[Execute Staking]
+    
+    ExecuteStake --> ConfirmStake{Confirm Stake}
+    ConfirmStake --> |Success| UpdateMetrics[Update Metrics]
+    ConfirmStake --> |Fail| StakingError[Staking Error]
+    
+    StakingError --> StakeErrorType{Error Type}
+    StakingError --> ErrorLog[Error Logging]
+    
+    %% Network Error Recovery
+    StakeErrorType --> |Network| NetworkCheck[Check Network Status]
+    NetworkCheck --> NetworkStatus{Network Status}
+    NetworkStatus --> |Available| RetryStake[Retry Stake]
+    NetworkStatus --> |Unavailable| WaitPeriod[Wait Period]
+    
+    WaitPeriod --> |After Delay| RetryStake
+    RetryStake --> |Success| ResumeStaking[Resume Staking]
+    RetryStake --> |Fail| MaxRetries{Max Retries?}
+    MaxRetries --> |Yes| EscalateIssue[Escalate to Support]
+    MaxRetries --> |No| NetworkCheck
+    
+    %% Validator Error Recovery
+    StakeErrorType --> |Validator| ValidatorStatusCheck[Check Validator Status]
+    ValidatorStatusCheck --> ValidatorStatus{Validator Status}
+    ValidatorStatus --> |Online| RetryValidator[Retry Current Validator]
+    ValidatorStatus --> |Offline| FindNewValidator[Find New Validator]
+    
+    FindNewValidator --> ValidatorList[Get Validator List]
+    ValidatorList --> SelectValidator[Select Best Validator]
+    SelectValidator --> MigrateStake[Migrate Stake]
+    MigrateStake --> |Success| UpdateValidatorRef[Update Validator Reference]
+    MigrateStake --> |Fail| ManualMigration[Manual Migration Process]
+    
+    %% Transaction Error Recovery
+    StakeErrorType --> |Transaction| TxAnalysis[Analyze Transaction]
+    TxAnalysis --> TxStatus{Transaction Status}
+    TxStatus --> |Pending| WaitConfirm[Wait for Confirmation]
+    TxStatus --> |Failed| RefundProcess[Process Refund]
+    TxStatus --> |Stuck| CancelTx[Cancel Transaction]
+    
+    WaitConfirm --> |Success| CompleteStaking[Complete Staking]
+    WaitConfirm --> |Timeout| CancelTx
+    
+    %% Refund Processing
+    RefundProcess --> VerifyBalance[Verify Balance]
+    VerifyBalance --> InitiateRefund[Initiate Refund]
+    InitiateRefund --> |Success| NotifyUser
+    InitiateRefund --> |Fail| SupportTicket
+    
+    %% Reward Distribution and Processing
+    StakingPool --> Validator[Rize Labs Validator]
+    Validator --> StakingRewards[Staking Rewards]
+    StakingRewards --> RewardScheduler[Reward Scheduler]
+    RewardScheduler --> RewardsSplit{Split Rewards}
+    
+    RewardsSplit --> |80%| AutoCompound[Auto-Compound]
+    RewardsSplit --> |20%| UserRewards[User Rewards]
+    
+    %% Points System with Error Handling
+    UserRewards --> PointsCalculator[Points Calculator]
+    PointsCalculator --> GetStakingData[Get Staking Data]
+    GetStakingData --> CalcRewards[Calculate Rewards]
+    
+    CalcRewards --> |Success| ApplyMultipliers[Apply Multipliers]
+    CalcRewards --> |Error| CalcError[Calculation Error]
+    
+    CalcError --> ErrorLog
+    ErrorLog --> RecalculatePoints[Recalculate Points]
+    RecalculatePoints --> |Success| ApplyMultipliers
+    RecalculatePoints --> |Fail| ManualReview[Flag for Review]
+    
+    ApplyMultipliers --> UpdatePoints[Update Points]
+    UpdatePoints --> NotifyUser
+    
+    %% Gift Card Processing with Error Handling
+    UpdatePoints --> ThresholdCheck{Check Thresholds}
+    ThresholdCheck --> |Met| GiftCardConversion[Convert to Gift Card]
+    ThresholdCheck --> |Not Met| ContinueStaking[Continue Staking]
+    
+    GiftCardConversion --> ConversionType{Conversion Type}
+    ConversionType --> |Auto| AutoProcess[Automatic Processing]
+    ConversionType --> |Manual| ManualProcess[Manual Processing]
+    
+    AutoProcess --> ProcessOrder[Process Order]
+    ManualProcess --> ProcessOrder
+    
+    ProcessOrder --> |Success| GenerateCode[Generate Card Code]
+    ProcessOrder --> |Error| GiftCardError[Gift Card Error]
+    
+    GiftCardError --> CardErrorType{Error Type}
+    CardErrorType --> |Provider Error| TryAltProvider[Try Alternative Provider]
+    CardErrorType --> |Balance Error| RefundPoints[Refund Points]
+    CardErrorType --> |System Error| ManualProcess
+    
+    GenerateCode --> DeliverCard[Deliver to User]
+    DeliverCard --> CardIssuance[Issue Gift Card]
+    
+    %% Backend Systems and Monitoring
+    StakingPool --> Blockchain[Blockchain Layer]
+    CardIssuance --> Blockchain
+    
+    ErrorLog --> Monitor
+    Monitor --> AlertSystem{Alert Priority}
+    AlertSystem --> |High| InstantAlert[Instant Alert]
+    AlertSystem --> |Medium| QueuedAlert[Queued Alert]
+    AlertSystem --> |Low| DailyReport[Daily Report]
+    
+    Monitor --> Analytics[Analytics Dashboard]
+    Monitor --> StakeMonitor[Staking Monitor]
+    Monitor --> UserMetrics[User Metrics]
+    
+    %% Recovery Tracking
+    RetryStake --> RecoveryMonitor[Recovery Monitor]
+    FindNewValidator --> RecoveryMonitor
+    RefundProcess --> RecoveryMonitor
+    RecoveryMonitor --> Monitor
+
+
+V2
+
+graph TB
+   %% Entry and Authentication
+   Start[User Entry] --> AuthChoice{Login or Signup?}
+  
+   %% Login Path with Error Handling
+   AuthChoice --> |Login| LoginForm[Login Form]
+   LoginForm --> ValidateLogin{Validate}
+   ValidateLogin --> |Success| AuthDetails[Authentication Details]
+   ValidateLogin --> |Fail| LoginForm
+   ValidateLogin --> |Invalid Credentials| ErrorCount[Error Counter]
+  
+   ErrorCount --> CheckAttempts{Check Attempts}
+   CheckAttempts --> |< 3 Attempts| LoginForm
+   CheckAttempts --> |≥ 3 Attempts| LockAccount[Lock Account]
+   LockAccount --> NotifyUser[Notify User]
+   LockAccount --> SecurityLog[Log Security Event]
+   SecurityLog --> Monitor[System Monitor]
+
+
+   %% Authentication Process
+   AuthDetails --> SessionCreate[Create Session]
+   SessionCreate --> TokenGen[Generate JWT]
+   TokenGen --> SecurityCheck{Security Verification}
+   SecurityCheck --> |Pass| Dashboard[User Dashboard]
+   SecurityCheck --> |Fail| SecurityAlert[Security Alert]
+   SecurityAlert --> ForceLogout[Force Logout]
+   SecurityAlert --> SecurityLog
+  
+   %% Signup Path with Wallet Creation
+   AuthChoice --> |Signup| SignupForm[Signup Form]
+   SignupForm --> CreateUser[Create User]
+   CreateUser --> CreateWallet[Create Coreum Wallet]
+  
+   %% Wallet Creation Process with Error Handling
+   CreateWallet --> InitWallet[Initialize Wallet]
+   InitWallet --> GenKeys[Generate Keys]
+   GenKeys --> |Success| EncryptWallet[Encrypt Wallet Data]
+   GenKeys --> |Error| KeyGenError[Key Generation Error]
+  
+   KeyGenError --> RetryKeyGen{Retry?}
+   RetryKeyGen --> |Yes| GenKeys
+   RetryKeyGen --> |No| ErrorReport[Report Error]
+   ErrorReport --> SupportTicket[Create Support Ticket]
+   SupportTicket --> Monitor
+  
+   EncryptWallet --> StoreSecure[Secure Storage]
+   StoreSecure --> BackupSystem[Backup System]
+   BackupSystem --> Dashboard
+
+
+   %% User Interface Layer
+   Dashboard --> UserInterface[User Interface]
+   UserInterface --> PointsView[Points Display]
+   UserInterface --> RewardsView[Rewards Status]
+   UserInterface --> AppsView[Apps Management]
+  
+   %% Points Display System
+   PointsView --> CurrentPoints[Current Points]
+   PointsView --> EarningRate[Earning Rate]
+   PointsView --> NextReward[Next Reward Progress]
+  
+   CurrentPoints --> |Hidden| CoreumBalance[Actual CORE Balance]
+   EarningRate --> |Hidden| ActualStakingRate[Actual Staking Rate]
+   NextReward --> |Hidden| ThresholdTracking[CORE Threshold Track]
+  
+   %% Core Services
+   Dashboard --> CoreServices{Core Services}
+   CoreServices --> Points[Points System]
+   CoreServices --> Rewards[Rewards System]
+   CoreServices --> Apps[Mini Apps]
+
+
+   %% Multi-App Processing
+   Apps --> AppSelector[App Selection]
+   AppSelector --> MultiSubCheck{Multiple Subscriptions?}
+   MultiSubCheck --> |Yes| RevenueSplit[Split Revenue]
+   MultiSubCheck --> |No| SingleAppProcess[Single App Process]
+  
+   %% Payment Processing with Error Handling
+   RevenueSplit --> ProcessPayment[Process Payment]
+   SingleAppProcess --> ProcessPayment
+  
+   ProcessPayment --> ValidatePayment{Validate Payment}
+   ValidatePayment --> |Valid| ConvertFiat[Convert to CORE]
+   ValidatePayment --> |Invalid| RetryPayment[Retry Payment]
+   ValidatePayment --> |System Error| PaymentError[Payment Error]
+  
+   PaymentError --> PayErrorType{Error Type}
+   PayErrorType --> |Network| RetryPayment
+   PayErrorType --> |Insufficient Funds| NotifyInsufficient[Notify Insufficient]
+   PayErrorType --> |Invalid Card| UpdatePayment[Update Payment Method]
+  
+   NotifyInsufficient --> Monitor
+   UpdatePayment --> ProcessPayment
+  
+   ConvertFiat --> MarketCheck[Check Market Rate]
+   MarketCheck --> ExecutePurchase[Purchase CORE]
+   ExecutePurchase --> SplitFunds
+
+
+   %% Fund Distribution
+   SplitFunds --> |99%| StakingPool[Staking Pool]
+   SplitFunds --> |1%| OperationalPool[Operational Pool]
+
+
+   %% Staking Process with Comprehensive Error Handling
+   StakingPool --> ValidatorCheck[Check Validator Status]
+   ValidatorCheck --> PrepareStake[Prepare Stake]
+   PrepareStake --> ExecuteStake[Execute Staking]
+  
+   ExecuteStake --> ConfirmStake{Confirm Stake}
+   ConfirmStake --> |Success| UpdateMetrics[Update Metrics]
+   ConfirmStake --> |Fail| StakingError[Staking Error]
+  
+   StakingError --> StakeErrorType{Error Type}
+   StakingError --> ErrorLog[Error Logging]
+  
+   %% Network Error Recovery
+   StakeErrorType --> |Network| NetworkCheck[Check Network Status]
+   NetworkCheck --> NetworkStatus{Network Status}
+   NetworkStatus --> |Available| RetryStake[Retry Stake]
+   NetworkStatus --> |Unavailable| WaitPeriod[Wait Period]
+  
+   WaitPeriod --> |After Delay| RetryStake
+   RetryStake --> |Success| ResumeStaking[Resume Staking]
+   RetryStake --> |Fail| MaxRetries{Max Retries?}
+   MaxRetries --> |Yes| EscalateIssue[Escalate to Support]
+   MaxRetries --> |No| NetworkCheck
+  
+   %% Validator Error Recovery
+   StakeErrorType --> |Validator| ValidatorStatusCheck[Check Validator Status]
+   ValidatorStatusCheck --> ValidatorStatus{Validator Status}
+   ValidatorStatus --> |Online| RetryValidator[Retry Current Validator]
+   ValidatorStatus --> |Offline| FindNewValidator[Find New Validator]
+  
+   FindNewValidator --> ValidatorList[Get Validator List]
+   ValidatorList --> SelectValidator[Select Best Validator]
+   SelectValidator --> MigrateStake[Migrate Stake]
+   MigrateStake --> |Success| UpdateValidatorRef[Update Validator Reference]
+   MigrateStake --> |Fail| ManualMigration[Manual Migration Process]
+  
+   %% Transaction Error Recovery
+   StakeErrorType --> |Transaction| TxAnalysis[Analyze Transaction]
+   TxAnalysis --> TxStatus{Transaction Status}
+   TxStatus --> |Pending| WaitConfirm[Wait for Confirmation]
+   TxStatus --> |Failed| RefundProcess[Process Refund]
+   TxStatus --> |Stuck| CancelTx[Cancel Transaction]
+  
+   WaitConfirm --> |Success| CompleteStaking[Complete Staking]
+   WaitConfirm --> |Timeout| CancelTx
+  
+   %% Refund Processing
+   RefundProcess --> VerifyBalance[Verify Balance]
+   VerifyBalance --> InitiateRefund[Initiate Refund]
+   InitiateRefund --> |Success| NotifyUser
+   InitiateRefund --> |Fail| SupportTicket
+  
+   %% Reward Distribution and Processing
+   StakingPool --> Validator[Rize Labs Validator]
+   Validator --> StakingRewards[Staking Rewards]
+   StakingRewards --> RewardScheduler[Reward Scheduler]
+   RewardScheduler --> RewardsSplit{Split Rewards}
+  
+   RewardsSplit --> |80%| AutoCompound[Auto-Compound]
+   RewardsSplit --> |20%| UserRewards[User Rewards]
+  
+   %% Points System with Error Handling
+   UserRewards --> PointsCalculator[Points Calculator]
+   PointsCalculator --> GetStakingData[Get Staking Data]
+   GetStakingData --> CalcRewards[Calculate Rewards]
+  
+   CalcRewards --> |Success| ApplyMultipliers[Apply Multipliers]
+   CalcRewards --> |Error| CalcError[Calculation Error]
+  
+   CalcError --> ErrorLog
+   ErrorLog --> RecalculatePoints[Recalculate Points]
+   RecalculatePoints --> |Success| ApplyMultipliers
+   RecalculatePoints --> |Fail| ManualReview[Flag for Review]
+  
+   ApplyMultipliers --> UpdatePoints[Update Points]
+   UpdatePoints --> NotifyUser
+  
+   %% Gift Card Processing with Error Handling
+   UpdatePoints --> ThresholdCheck{Check Thresholds}
+   ThresholdCheck --> |Met| GiftCardConversion[Convert to Gift Card]
+   ThresholdCheck --> |Not Met| ContinueStaking[Continue Staking]
+  
+   GiftCardConversion --> ConversionType{Conversion Type}
+   ConversionType --> |Auto| AutoProcess[Automatic Processing]
+   ConversionType --> |Manual| ManualProcess[Manual Processing]
+  
+   AutoProcess --> ProcessOrder[Process Order]
+   ManualProcess --> ProcessOrder
+  
+   ProcessOrder --> |Success| GenerateCode[Generate Card Code]
+   ProcessOrder --> |Error| GiftCardError[Gift Card Error]
+  
+   GiftCardError --> CardErrorType{Error Type}
+   CardErrorType --> |Provider Error| TryAltProvider[Try Alternative Provider]
+   CardErrorType --> |Balance Error| RefundPoints[Refund Points]
+   CardErrorType --> |System Error| ManualProcess
+  
+   GenerateCode --> DeliverCard[Deliver to User]
+   DeliverCard --> CardIssuance[Issue Gift Card]
+  
+   %% Backend Systems and Monitoring
+   StakingPool --> Blockchain[Blockchain Layer]
+   CardIssuance --> Blockchain
+  
+   ErrorLog --> Monitor
+   Monitor --> AlertSystem{Alert Priority}
+   AlertSystem --> |High| InstantAlert[Instant Alert]
+   AlertSystem --> |Medium| QueuedAlert[Queued Alert]
+   AlertSystem --> |Low| DailyReport[Daily Report]
+  
+   Monitor --> Analytics[Analytics Dashboard]
+   Monitor --> StakeMonitor[Staking Monitor]
+   Monitor --> UserMetrics[User Metrics]
+  
+   %% Recovery Tracking
+   RetryStake --> RecoveryMonitor[Recovery Monitor]
+   FindNewValidator --> RecoveryMonitor
+   RefundProcess --> RecoveryMonitor
+   RecoveryMonitor --> Monitor
+
+
+What is what
+Let me break down what you wanted and what I've created in simple terms:What You Wanted:1. Initial Payment Split:5% goes to operations
+85% goes to individual user wallets (kept separate)
+10% goes to a master liquid CORE pool
+Rewards Structure:
+60% gets auto-compounded (reinvested)
+20% goes to team wallet
+20% goes to users (shown as points but kept as CORE)
+Gift Card System:
+No automatic conversions
+Users must manually convert points
+Integration with Bitrefill for gift cards
+What I've Created:User Entry & Security:
+Users enter through secure login/signup
+Multiple security checks (location, device, 2FA)
+Protection against fraud and attacks
+Wallet System:
+Separate wallets for each user
+Main wallet for general use
+Staking wallet for investments
+Rewards wallet for earnings
+Payment Processing:
+Secure payment verification
+Automatic splitting of funds:
+5% to operations
+85% to user's staking wallet
+10% to master liquid pool
+Anti-fraud checks
+Staking System:
+Secure validator checking
+Automatic rewards distribution:
+60% auto-compounds
+20% to team
+20% to user (as CORE but shown as points)
+Performance monitoring
+Points & Rewards:
+Backend stores everything as CORE
+Users see points on frontend
+Real-time balance updates
+Earnings tracking
+Gift Card System:
+Manual conversion only
+Bitrefill integration
+Balance verification
+Security checks before conversion
+Monitoring & Security:
+Real-time system monitoring
+Fraud detection
+Performance tracking
+Error handling
+Security alerts
+Error Handling:
+Automatic retry systems
+Support escalation
+User notifications
+Transaction recovery
+Would you like me to:Explain any part in more detail?
+2. Break down specific processes?Clarify how certain parts work together?
+Explain the security measures in more detail?
+what is the project and what are they using blockchain. for and how are thery only using it on bakend to grow ecosystem and earn
+Based on our conversation and the flow chart, let me break down the project's core concept:Project Overview:Loyalty/Rewards Platform
+Users earn points for using services/apps
+Points are actually CORE tokens on the backend
+Users see points, but system manages CORE tokens
+Growing ecosystem through staking and rewards
+Backend Blockchain Usage:Token Management
+CORE tokens are managed silently
+Users never interact directly with blockchain
+All crypto operations happen automatically
+System handles all wallet management
+Revenue Model:
+When users pay for services:
+5% → Operating costs
+85% → User's staking wallet (earning rewards)
+10% → Master liquid pool (ecosystem growth)
+Staking System:
+User payments are automatically staked
+Generates rewards through Coreum blockchain
+Rewards are split:
+60% → Auto-compound (grows ecosystem)
+20% → Team wallet (sustainability)
+20% → User rewards (shown as points)
+Growth Mechanism:
+Users' funds are automatically staked
+Staking generates more CORE tokens
+Auto-compounding grows total stake
+System becomes self-sustaining
+User Benefits:
+Earn points through normal usage
+Points backed by real CORE value
+Can redeem for gift cards
+Value grows through staking
+Business Benefits:
+Sustainable revenue through staking
+Growing token ecosystem
+User loyalty through points
+No crypto complexity for users
+Would you like me to:Explain the tokenomics in more detail?
+Break down the revenue model further?
+Explain how the ecosystem grows?
+Detail how user rewards accumulate?
+

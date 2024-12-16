@@ -1,0 +1,4 @@
+{
+  "livePreview.defaultPreviewPath": "./frontend/src/",
+  "livePreview.autoRefreshPreview": true
+} 

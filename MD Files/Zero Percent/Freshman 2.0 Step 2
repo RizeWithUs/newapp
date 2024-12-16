@@ -1,0 +1,328 @@
+# 20240318-IRS1 IRS EIN Application Process
+**Tags:** #IRS #EIN #trust-setup #documentation
+**Level:** 1. Complete Project Scope
+**Links:** [[20240318-SS4]] [[20240318-TRUST]] [[20240318-CORR]]
+
+## Core Process Overview
+1. SS4 Form Preparation
+2. IRS Phone Contact
+3. Correspondence Letter
+4. Documentation Requirements
+
+---
+
+# 20240318-SS4 Form SS4 Guidelines
+**Tags:** #forms #documentation #application
+**Level:** 2. Document Level
+**Links:** [[20240318-IRS1]] [[20240318-CORP]]
+
+## Key Components
+1. Trust Name Format
+2. Foreign Address Requirements
+3. US Mailing Address
+4. Trustee Information
+
+### Critical Details
+Phone: 267-941-1099
+Wait Time: 15-30 minutes
+Required Information:
+- Trust Name
+- Foreign Address
+- US Mailing Address
+- Trustee Details
+
+---
+
+# 20240318-CORP Corporate Structure Analysis
+**Tags:** #corporation #legal-structure #stockholder
+**Level:** 2. Document Level
+**Links:** [[20240318-SS4]] [[20240318-STAT]]
+
+## State Corporation Example (Indiana)
+- 3.4 million stockholders
+- State services provided
+- Citizenship implications
+- Social security integration
+
+### Key Concepts
+1. State as Corporation
+2. Citizen as Stockholder
+3. Service Provisions
+4. Separation Strategy
+
+---
+
+# 20240318-CORR IRS Correspondence Protocol
+**Tags:** #correspondence #IRS #documentation #compliance
+**Level:** 2. Document Level
+**Links:** [[20240318-IRS1]] [[20240318-LETT]] [[20240318-COMP]]
+
+## Letter Structure Requirements
+
+markdown
+Date: [Current Date]
+Foreign Trustee: [Name]
+Address: [Care of Address]
+EIN: [Number]
+Office: Cincinnati, Ohio
+
+---
+
+# 20240318-LETT Letter Components
+**Tags:** #letter #documentation #compliance
+**Level:** 3. Paragraph Level
+**Links:** [[20240318-CORR]] [[20240318-REF]]
+
+## Essential Elements
+1. IRM Reference: 21.7.13.2.13.3.2.7.1
+2. Agent Information Documentation
+3. Trust Status Declaration
+4. Legal References
+
+### Template Structure
+markdown
+[Date]
+[Trustee Information]
+[IRS Office Address]
+[EIN Reference]
+[Trust Declaration]
+[Legal Citations]
+[Business Associations]
+[Signature Block]
+
+---
+
+# 20240318-COMP Compliance Documentation
+**Tags:** #compliance #legal-reference #documentation
+**Level:** 2. Document Level
+**Links:** [[20240318-CORR]] [[20240318-PUB]]
+
+## Required References
+1. Public Law Citations
+   - Replace USC references
+   - Include brackets for USC codes
+   - Full public law numbers
+
+2. Trust Declarations
+   - Foreign status
+   - Non-resident alien trustee
+   - Court test exemption
+   - Control test exemption
+
+---
+
+# 20240318-IDEN Identity Management
+**Tags:** #identity #business-names #documentation
+**Level:** 3. Paragraph Level
+**Links:** [[20240318-LETT]] [[20240318-BUS]]
+
+## Business Identity Structure
+```markdown
+Trust doing business as:
+1. [Name] bankruptcy estate
+2. [Name] family estate
+3. Title of nobility name
+4. Business associations
+```
+
+### Implementation Notes
+- Include all name derivatives
+- List future business possibilities
+- Document all current entities
+- Maintain comprehensive records
+
+---
+
+# 20240318-TRUS Trustee Implementation
+**Tags:** #trustee #foreign-entity #documentation
+**Level:** 2. Document Level
+**Links:** [[20240318-IDEN]] [[20240318-DOC]]
+
+## Trustee Options
+1. Foreign Trustee Setup
+   - Monthly compensation
+   - Term definition (25 years)
+   - Documentation requirements
+   - Identity verification
+
+2. Title of Nobility Alternative
+   - Responsible party designation
+   - Trustee separation
+   - Documentation requirements
+
+### Process Flow
+```markdown
+1. SS4 Documentation
+   - Trustee designation
+   - Responsible party
+   - No social security numbers
+   
+2. Correspondence
+   - Trustee reference
+   - Passport/ID documentation
+   - Authority verification
+```
+
+---
+
+# 20240318-CALL IRS Phone Communication Protocol
+**Tags:** #phone-procedure #IRS #communication
+**Level:** 2. Document Level
+**Links:** [[20240318-IRS1]] [[20240318-PROC]]
+
+## Call Structure
+
+1. Initial Contact
+   Phone: 267-941-1099
+   Department: International and US Residency Certification
+
+2. Required Information Sequence
+   - Trust name (De Novo Express Trust)
+   - Trustee information
+   - Foreign address details
+   - US mailing address
+
+---
+
+# 20240318-ADDR Address Implementation
+**Tags:** #address #foreign-location #documentation
+**Level:** 3. Paragraph Level
+**Links:** [[20240318-CALL]] [[20240318-LOC]]
+
+## Ireland Address Examples
+```
+
+Primary Options:
+1. 6 Northbrook Road
+   Ranelagh, Dublin
+   D06 [Code]
+
+2. Block 5, 208 Parklands
+   [Additional Details]
+
+Verification Requirements:
+- Real location
+- Commercial property
+- Verifiable address
+```
+
+---
+
+# 20240318-MAN IRS Manual References
+**Tags:** #manual #IRS #compliance
+**Level:** 2. Document Level
+**Links:** [[20240318-CORR]] [[20240318-ZERO]]
+
+## Key Manual Sections
+1. Foreign Entities Section
+2. Non-Filing Requirements
+3. TEFRA System References
+4. Response Protocols
+
+### Zero File List Requirements
+```
+
+Qualifications:
+- 98-series number
+- TEFRA system issuance
+- Foreign entity status
+- Non-US person status
+```
+
+---
+
+# 20240318-TAX Tax Treaty Implementation
+**Tags:** #tax #treaty #foreign-status
+**Level:** 2. Document Level
+**Links:** [[20240318-MAN]] [[20240318-STAT]]
+
+## Treaty Considerations
+1. Foreign Entity Status
+2. Non-Resident Alien Trustee
+3. Court Test Exemption
+4. Control Test Exemption
+
+---
+
+# 20240318-BUS2 Business Structure Integration
+**Tags:** #business #structure #integration
+**Level:** 2. Document Level
+**Links:** [[20240318-IDEN]] [[20240318-DBA]]
+
+## Complete DBA Listing
+```
+
+Entity Structures:
+1. [Name] bankruptcy estate
+2. [Name] family estate
+3. Title of nobility variations
+4. Business associations
+5. Future business entities
+```
+
+---
+
+# 20240318-IMPL Implementation Timeline
+**Tags:** #implementation #process #timeline
+**Level:** 1. Complete Project Scope
+**Links:** [[20240318-IRS1]] [[20240318-NEXT]]
+
+## Process Sequence
+1. Trust Establishment
+2. EIN Application
+3. IRS Correspondence
+4. Documentation Filing
+5. Business Integration
+
+---
+
+# 20240318-NEXT Step 3 Preview
+**Tags:** #next-steps #process #continuation
+**Level:** 2. Document Level
+**Links:** [[20240318-IMPL]] [[20240318-FUT]]
+
+## Future Considerations
+1. Additional Documentation
+2. Business Development
+3. Asset Protection
+4. System Maintenance
+
+---
+
+# 20240318-PROC Complete Process Overview
+**Tags:** #process #overview #integration
+**Level:** 1. Complete Project Scope
+**Links:** [[20240318-ALL]]
+
+## Master Process Flow
+```
+
+1. Initial Setup
+   - Trust establishment
+   - Foreign address
+   - Trustee designation
+
+2. IRS Integration
+   - EIN application
+   - Correspondence
+   - Documentation
+
+3. Business Structure
+   - Entity integration
+   - DBA listings
+   - Future planning
+
+4. Maintenance
+   - Documentation updates
+   - Correspondence management
+   - System integrity
+```
+
+
+
+Original File: [[20240318-PROC]]
+. All right, welcome back. We're going to go into step number two,
+ and this section we're going to fill out the IRS form SS4 uh that 
+ is the application of all EIN numbers in the paper format, but 
+ we're going to use it as a guide.  Um, I'm gonna see if I can get 
+ the Internal revenue service online and try to go ahead and get and EIN number four our Express trust here and our example. And after that I'm going to show you how to do the correspondence letter. Uh, this is something that we have to do the Iris manual tells us to do it immediately upon the receiving of a solicitation from the IRS asking us to turn in any tax return forms.  We're not obligated to do that, so they want us to send them a simple letter telling them why we are exempt from that. So I will go over that letter. So first, let's go ahead and open up the SS 4 when you click this hyperlink here, it will take you to the iris form.  But first, I want to go over a little something that we talked about in step one about those subcorporations being your name as the first that'll last or last, comma, first middle, a subcorporation juristic person that is under the main US corporation, right? You have a franchised working underneath the United States corporation. I want you to take a look at this, um flyer here or actual stock certificate.  This is for Indiana. share my screen here. All right, so this is for Indiana, and what you're seeing here zoom in for you. And it it's actually talking about the stockholders.  There are 3.4 million stockholders for the Indiana company, right? So when the territory of Indiana, that's a country when it's ceded over its jurisdiction over to the United States and now started to operate as a company which can receive shares. And it says here, engaged in providing peace, justice, security, opportunity, health, highways, education, conservation, conservation, and recreation.  Now, this language here down below is very, very important. It's kind of blurry. Let me pull up another image to see it that's more clear.  It says here that every Indiana citizen is a stockholder in 4300 and I believe that word is uh acres and miles, uh, 34 state parks in recreations memorials, 19 state institutions, colleges, um state libraries, state fairs, is entitled to serve. It's really hard to see at the at this point, but as you noticed down here, we can see clearly social security. Public services, commissions, uh securities and commissions, uh policies or courts, right?  Whatever you can make out here, but you get the idea. They're talking about well, here's one. Life insurance, secured bank deposits.  These are everything that we engage in with that social security number and they are telling you that you are part of the company. You are part of the corporation. So if you want to get out of this commercial system and not be uh taxed as if you owe fees, who are the main corporation, then you have to separate yourself.  And the only way to do that is buy utilizing an entity that is not considered any of these artificial entities, such as your name, suborporation, you need to use something that's not attached to the registrars's office down in the county. So this is why you make your title nobility name. You must separate to get away from all of these responsibilities here.  Okay? Now, your birth name will always be a stockholder in the state that you were born in. It always will be a citizen of that.  You cannot change that. The only thing that you can do is separate and put it into an entity that you can control, and that's it, and then enjoy your life, right? And try to do everything that is normal, uh, with complete separation withouting tax.  And if you're not taxed in imagine the savings that you can do and and the generational wealth building that you can do it with just that on its own, on the face. So I will attach this inside of this, uh, description here in patrions so you guys can look at it, but I thought that was very interesting to share. Says every Indiana citizen so you know for sure if Indiana has one, California has one, North Dakota has one, they all have it.  All right? So now let's get into the SS 4. Now, here's our sample here, according to our settler, Thomas A Anderson.  I'm gonna attempt to try to get the IRS on phone here and the number that we have to call is 26794199 and they should be asking me questions coming from this SS4 form and we'll go from there. Welcome to the internal revenue service International and US residency certification services. in English, one, but if you are calling with questions regarding economic, otherwise email I am use the latest an employer identific the number for an ending organized by sign the United speed one monit reported purposes. estimate your wait time to be between 15 and 30 minutes right. I'm go ahead and pause.  And as soon as they come back in, we will resume. I'm sorry, can you repeat that number for me? Thank you so much.  Okay. I'm just calling to apply for uh an EIN number for the trust that was established outside of the United States in Ireland. I am the trustee Thomas Edler, yes.  Edler? He is an Edward. D is a dog.  L. He isn't Edward Rs and Robert. Yes, I'm sorry. Three two 600 46 eleven This is a grand Tour trust.  No, ma'am. I am. for November. Would you like me to say it or spell it for you?  De Noo, express trust. no. He is a dog, E for Edward,ace, and for Nancy, O for Oscar, V for Victor. oh for Oscar Express trust. Outside.  Ireland? No. US. mailing address or the street address for an Ireland?.  That's gotta be six Northbrook Road. Northbrook? Yes.  Northbrook Road. The city is Ran RN E L A G H Dublin ZIP Code D06 is a dog, yes. I have a US spelling address with the United States, but the first address was outside the United States. now additionallication of all Ein numbers in the paper format, but we're gonna use it as a guide.  I'm gonna see if I can get the Internal revenue service online and try to go ahead and get the year 2016 now if you're providing an additional, I need to know if it's or not. It is not. And the Five six, six five, West Wilshire Boulevard Sweet 1000 Los Angeles, California, 900 three six Also, I'm doing his county.  February 9th in the year 2016 December 2023. No employees. started on, okay. Phot is correct.  I'm ready.. two ask you for your help today. Thank you. Bye bye.  All right, so as you can see, um, not too bad. We didn't have to go through the entire application there. Um, usually once you given the information necessary according to fiveA and another country and saying that you do not have a social.  Now, if you notice, I took some notes here. I wanted to make sure that I get that IS Agentumber. I still don't think that I got the right number, so let's just pretend that this is right. um I think she said more, and then one in this.  So let's just use that, for example, on today, February 10th. We're going to use this inside of our IRS correspondence letter. Now, you also saw me jump around between this site here.  I was just pulling up a random apartment or whatever that was in Ireland just in case they asked me, okay, I'm not a U. citizen, but I'm calling from an actual US number, uh with Verizon. And sometimes they'll ask you, well, I just need you to verify your address in the country that you say you live in. So obviously that's gonna be separate from the one that you are listing here, so I wanted to make sure I had something and I was going to say this one here. um or this one down here.  Block five, 208, Parklands, and they're not gonna put it into my actual application. They're just gonna verify that, okay, this is a real place and this is a true nonresident alien calling on behalf of the trust. So I wanted to have that just in case, but we didn't need to use it.  I advise you guys do the same thing, if that does happen. All right, so let's go into the actual correspondence. because that is the next thing here. So the IRS correspondence according to the Iris manual.  If we click this, it'll take you directly to the manual, the section that I want you to go to, which is foreign entities, persons not required to file a list tax return. All right? So we go down to the number two, if you done everything correctly, they're going to establish you on the zero file list, the way that you know that is because they gave you a nine eight number, right?  Those are numbers. it's issued out of the tefra system, hacks equity equity fiscal responsibility act. That's what you want for foreign numbers. We also want to reference point number three, right here, it says, if the foreign entities individuals above receive a letter from the IRS soliciting, the filing of a US tax return, the foreign entity individual should respond to the letter immediately by stating that it has no requirement to file a US tax return failure to respond to the IRS letter may result in a procedural assessment of the tax by IRS agent by IRS against the foreign entity.  So, but you have to give them the true reason why. Why are you not required to file a US tax return? So let's take a look at our example.  All right, here it is right here. Now look at this handsome gentleman down below. This is going to be our foreign trustee here.  We're going to give them every everything that we need to give them to show them this is truly coming from a foreign trustee, which is our reason why we are of waiting the US tax return requirement. Now, if you don't have your foreign trustee, then obviously you can't do this, but remember, you can reach out to us, get one and we'll work with you, but how to do that. So first, we wanna start off with today's date, of course, it'll be February 10th, 2013, you list your foreign trustee, okay, that you provided on that SS four form.  And our last example I listed myself as the title of nobility name. I listed my title of nobility name because I didn't have a foreign trustee. I'm going off that scenario.  So I gave them the noble Express trust. Here's the care of address, and this is where we're gonna send it, which is the Cincinnati Ohio office, because that is the office where we call using the 267 number. So go ahead and give them your EIN number that you just received, and you wanna introduce yourself if I was the one who gave my title nobility name on the application with the agent, therefore, I must address myself here in this letter as that, okay?  Now, also, you'll see what I mean. I let's say it's a Nicolai test. Nicolai Tesler, the foreign trustee who called, right?  An authorized person, trustee of the Dobo Express trust. on behalf of the trust beneficiaries wish to comply with IRM internal revenue manual 21.7.13.2.13.3.2.7.1 as of May 16, 2018. Point number three, satisfying the trust responsibility in answering any IRS solicitation in submitting a 1041 tax return. That's the letter that they're gonna send you in two weeks so let's be proactive and send this now.  The trust has no requirement to file any US tax return. Now, that information that we have received from the agent, their ID information and the date that you called, I want you to list it here. Okay?  I want you to list it here. IRS, agent, number. Now let's say this is it. $1 thousand two four six, seven two four four, on two ten thousand23.  Now they have something to reference in addition to this number here. Take notice that the dinovvo express trust is a foreign irrevocable organization established in Ireland and was assigned EIN number, but that number end for tax treaty purposes before an entity and its representatives have no requirement to file any US tax return pursuant to IRM 27. as the same number again or actually it's supposed to be 21 and the sole trustee is a non-resident alien who Eolite Tesla, Thomas Adler, whoever. having authority to make substantial decisions of the trust, the so trustee does not meet the requirements of the court test nor the control test. does not meet the requirements of the court test nor the control test. The foreign trust and its representatives are not United States persons or 26 USC 7701.  Now here's what I want you to do. I want you to take this code. Google it but I want you to replace it with the actual public law.  Remember, I've told you, they always find a reason to stall you or to put you in their jurisdiction. So what I want you to do is find the actual public law and the public law is at the very bottom. Go to the bottom here, and here we are.  This is a ton of public laws, right? All I want you to do is reference to very first part. all the way until you see this right here. So you would take all of this and list it here.  So you' past it, and then the 26 USC here there oes have to be in brackets. The brackets is the four corner rule. It's almost as if it's not on the page.  So therefore, they can't use that against you because their United States cobook all of these are copy written and that they're copywritten, you give them jurisdiction to do what they want. So please always reference the public law. and is not a domestic trust under the supervision and jurisdiction of any court within the United States, or and do it again for this section, right? Please do it again. and enter the actual public law. note that the novo express trust is doing business as.  Thomas A Anderson, Thomas A. Anderson bankruptcy estate, Thomas A family of Anderson estate, Thomas and Edler, the Graf of Los Angeles and Steinberg associates, an unincorporated association. Please provide confirmation of the above statements and compliance with the law, should you have any questions or concerns, you may write to our attention via the address above, and then you sign your title nobility name or provide your foreign trustees, uh signature. Okay?  Now, um, what is this here? I want them to take notice of the trust is doing business in all of these names in the future when it comes to taxes. Get this on the record as soon as possible.  This is something new, and I believe that this is going to be an outstanding uh lead in this process. So list everything of how you are used to um receiving mail. list every single derivative. Now, all of these will be listed inside of your copyright, uh, trademark agreement, which will get into in the junior course.  But for now, list them here. I chose Steinberg Associates just in case this employee decides to go into business for himself. Maybe he wants to open up a car wash business, a consulting business on the side, whatever.  Pet rooming, doesn't matter. List any business that you think that you may want to open in the future, or if you already have current LOCs and corporations, list them here. All right?  So, provide your passport from your foreign trustee, if you're using one. Now here's a good question that you may ask me. Here I am, Avery, calling the IRS I didn't have a foreign trustee of what actually exactly look look, my my foreign trustee is female.  And she wants to do this process to help me, she understands she's not in any trouble. uh, she's just providing her information for, um exempting my assets from the US court tests and US control tests. She's all good with that. She said if I just pay her a hundred or $100 a month for this term of the $25 years, we're good to go.  Some of you have found that to be free, but let's just say that's the case. She's a woman, I'm using her and I need to call the IRS, so what do I do do I use my title nobility name or do I use her name? Because I'm calling, I'm a man and I have a female's name listed as the trustee.  What do I do? But do you do simple go back to your SS four, right? List her as the trustee. and you heard in the call where the agent asked am I the same as the is the responsible party the same as the trustee?  That's where I could have said no. My name is Thomas Edler, the title nobility name. You see that.  Use your title nobility name as the responsible party, but the trustee can be Suzy Carmichael, my foreign trustee who's a female, and everything else will stay the same responsible party does not have a social, nor does Suzy Carmichael, my female trustee. Okay, that's how you would do that. And here on the letter, you just simply reference Suzy Carmichael as the trustee.  Suzy Carmichael right here. Suzy Carmichael right here and Suzy Carmichael right here and provides Suzy Carmichael's picture of her passport if she has it. If she doesn't have it, you can utilize, um, some form of foreign ID that she has in her country, right?  So that's going to be it for step two, let us go ahead and move on to step number three.
